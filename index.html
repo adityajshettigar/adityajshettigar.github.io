@@ -3,7 +3,6 @@ layout: default
 ---
 
 <style>
-  /* Hero Section with fade-in */
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -15,11 +14,6 @@ layout: default
     }
   }
 
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
   @keyframes slideIn {
     from {
       opacity: 0;
@@ -29,11 +23,6 @@ layout: default
       opacity: 1;
       transform: translateX(0);
     }
-  }
-
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
   }
 
   .hero {
@@ -106,7 +95,6 @@ layout: default
     transform: translateX(2px);
   }
 
-  /* Section Headers */
   .section-header {
     max-width: 900px;
     margin: 0 auto;
@@ -134,7 +122,6 @@ layout: default
     border-radius: 20px;
   }
 
-  /* Filters */
   .filters {
     max-width: 900px;
     margin: 0 auto;
@@ -181,7 +168,6 @@ layout: default
     transform: scaleX(1);
   }
 
-  /* Post List */
   .post-list {
     max-width: 900px;
     margin: 0 auto;
@@ -274,7 +260,6 @@ layout: default
     transform: scale(0.95);
   }
 
-  /* Empty State */
   .empty-state {
     max-width: 900px;
     margin: 60px auto;
@@ -283,23 +268,12 @@ layout: default
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 8px;
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeInUp 0.5s ease-out;
   }
 
   .empty-state p {
     color: var(--text-tertiary);
     font-size: 14px;
-  }
-
-  /* Loading animation */
-  @keyframes shimmer {
-    0% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-    100% { opacity: 0.3; }
-  }
-
-  .loading {
-    animation: shimmer 1.5s ease-in-out infinite;
   }
 
   @media (max-width: 680px) {
@@ -373,7 +347,6 @@ layout: default
 </div>
 
 <script>
-  // Smooth filter with animation
   const filters = document.querySelectorAll('.filter-btn');
   const posts = document.querySelectorAll('.post-item');
 
@@ -400,16 +373,6 @@ layout: default
           post.style.display = 'none';
         }
       });
-    });
-  });
-
-
-  const links = document.querySelectorAll('a');
-  links.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const audio = new Audio('https://www.soundjay.com/misc/sounds/button-click-01.mp3');
-      audio.volume = 0.2;
-      audio.play().catch(() => {});
     });
   });
 </script>

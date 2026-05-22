@@ -4,17 +4,17 @@ layout: default
 
 <style>
   .post-container {
-    max-width: 720px;
+    max-width: 780px;
     margin: 0 auto;
-    padding: 48px 24px 96px;
+    padding: 48px 28px 96px;
   }
 
   .post-back {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: var(--text-light);
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-tertiary);
     text-decoration: none;
     margin-bottom: 48px;
     transition: color 0.2s ease;
@@ -31,48 +31,48 @@ layout: default
   .post-tags {
     display: flex;
     gap: 8px;
-    flex-wrap: wrap;
     margin-bottom: 20px;
   }
 
   .post-tag {
-    font-size: 12px;
-    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
     border-radius: 20px;
     background: var(--code-bg);
-    color: var(--text-light);
-    text-decoration: none;
+    color: var(--text-secondary);
   }
 
   .post-title {
-    font-size: 44px;
-    font-weight: 700;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 48px;
+    font-weight: 500;
     letter-spacing: -0.02em;
     line-height: 1.2;
     margin-bottom: 20px;
-    color: var(--text);
+    color: var(--text-primary);
   }
 
   .post-meta {
-    font-size: 14px;
-    color: var(--text-light);
+    font-size: 13px;
+    color: var(--text-tertiary);
     display: flex;
-    gap: 24px;
+    gap: 16px;
     flex-wrap: wrap;
   }
 
   .post-image {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 8px;
     margin: 48px 0;
     border: 1px solid var(--border);
   }
 
-  /* Content Styling */
   .post-content {
-    font-size: 17px;
-    line-height: 1.75;
-    color: var(--text);
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-primary);
   }
 
   .post-content > * + * {
@@ -81,16 +81,14 @@ layout: default
 
   .post-content h1 {
     font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
+    font-weight: 500;
     margin-top: 48px;
     margin-bottom: 16px;
   }
 
   .post-content h2 {
     font-size: 26px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 500;
     margin-top: 48px;
     margin-bottom: 16px;
     padding-bottom: 8px;
@@ -99,7 +97,7 @@ layout: default
 
   .post-content h3 {
     font-size: 22px;
-    font-weight: 600;
+    font-weight: 500;
     margin-top: 36px;
     margin-bottom: 12px;
   }
@@ -116,12 +114,12 @@ layout: default
   }
 
   .post-content code {
-    font-family: 'SF Mono', 'Menlo', monospace;
+    font-family: 'Inter', monospace;
     font-size: 14px;
     padding: 2px 6px;
     background: var(--code-bg);
+    border: 1px solid var(--code-border);
     border-radius: 4px;
-    color: var(--code-text);
   }
 
   .post-content pre {
@@ -134,23 +132,21 @@ layout: default
 
   .post-content pre code {
     background: none;
+    border: none;
     padding: 0;
     font-size: 14px;
-    line-height: 1.6;
-    color: var(--text);
   }
 
   .post-content blockquote {
     border-left: 3px solid var(--accent);
-    padding-left: 20px;
+    padding-left: 24px;
     margin: 32px 0;
-    color: var(--text-light);
+    color: var(--text-secondary);
     font-style: italic;
   }
 
-  .post-content ul, 
-  .post-content ol {
-    padding-left: 24px;
+  .post-content ul, .post-content ol {
+    padding-left: 28px;
   }
 
   .post-content li {
@@ -181,8 +177,8 @@ layout: default
   }
 
   .post-footer a {
-    font-size: 14px;
-    color: var(--text-light);
+    font-size: 13px;
+    color: var(--text-tertiary);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -193,7 +189,7 @@ layout: default
 
   @media (max-width: 640px) {
     .post-title {
-      font-size: 32px;
+      font-size: 36px;
     }
     .post-content {
       font-size: 16px;
@@ -202,9 +198,7 @@ layout: default
 </style>
 
 <div class="post-container">
-  <a href="/" class="post-back">
-    ← Back to all posts
-  </a>
+  <a href="/" class="post-back">← Back to writings</a>
 
   <div class="post-header">
     <div class="post-tags">
@@ -224,12 +218,12 @@ layout: default
     <img class="post-image" src="{{ page.image }}" alt="{{ page.title }}">
   {% endif %}
 
-  <div class="post-content">
+  <article class="post-content">
     {{ content }}
-  </div>
+  </article>
 
   <div class="post-footer">
-    <a href="/">← Browse all posts</a>
-    <a href="https://github.com/adityajshettigar" target="_blank" rel="noopener">GitHub →</a>
+    <a href="/">← All posts</a>
+    <a href="https://github.com/adityajshettigar" target="_blank">GitHub →</a>
   </div>
 </div>
