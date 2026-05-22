@@ -1,245 +1,235 @@
 ---
 layout: default
 ---
+
 <style>
-  .article-wrap {
-    max-width: 700px;
+  .post-container {
+    max-width: 720px;
     margin: 0 auto;
-    padding: 52px 24px 120px;
+    padding: 48px 24px 96px;
   }
 
-  /* back link */
-  .back {
+  .post-back {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--muted);
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-light);
     text-decoration: none;
-    margin-bottom: 40px;
-    transition: color .12s;
-  }
-  .back:hover { color: var(--accent); }
-  .back svg { transition: transform .12s; }
-  .back:hover svg { transform: translateX(-3px); }
-
-  /* header */
-  .article-header { margin-bottom: 36px; }
-
-  .article-tags {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-  }
-  .chip {
-    font-size: 9px;
-    font-family: var(--mono);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 2px;
-    white-space: nowrap;
-    border: 1px solid transparent;
-  }
-  .chip-osint    { color: #f5c842; background: rgba(245,200,66,.08); border-color: rgba(245,200,66,.18); }
-  .chip-ctf      { color: #60b8f0; background: rgba(96,184,240,.08); border-color: rgba(96,184,240,.18); }
-  .chip-research { color: #b39ddb; background: rgba(179,157,219,.08); border-color: rgba(179,157,219,.18); }
-  .chip-build    { color: var(--accent); background: var(--accent-dim); border-color: rgba(94,243,210,.18); }
-  .chip-writeup  { color: #f48fb1; background: rgba(244,143,177,.08); border-color: rgba(244,143,177,.18); }
-  .chip-default  { color: var(--muted); background: rgba(86,88,105,.08); border-color: rgba(86,88,105,.2); }
-
-  .article-title {
-    font-family: var(--serif);
-    font-size: clamp(28px, 4.5vw, 42px);
-    font-weight: 400;
-    line-height: 1.18;
-    color: var(--text);
-    margin-bottom: 12px;
-  }
-  .article-meta {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: .04em;
-  }
-
-  /* hero image */
-  .hero-img {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-    border-radius: 3px;
-    border: 1px solid var(--border);
     margin-bottom: 48px;
-    display: block;
+    transition: color 0.2s ease;
   }
 
-  /* ── article content ── */
-  .article-body {
-    font-size: 15.5px;
-    line-height: 1.82;
-    color: #c8cad0;
+  .post-back:hover {
+    color: var(--accent);
   }
 
-  .article-body > * + * { margin-top: 22px; }
+  .post-header {
+    margin-bottom: 48px;
+  }
 
-  .article-body p { }
-  .article-body p + p { margin-top: 18px; }
+  .post-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
 
-  .article-body h2 {
-    font-family: var(--serif);
-    font-size: 26px;
-    font-weight: 400;
+  .post-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--code-bg);
+    color: var(--text-light);
+    text-decoration: none;
+  }
+
+  .post-title {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 20px;
     color: var(--text);
-    margin-top: 52px;
+  }
+
+  .post-meta {
+    font-size: 14px;
+    color: var(--text-light);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .post-image {
+    width: 100%;
+    border-radius: 12px;
+    margin: 48px 0;
+    border: 1px solid var(--border);
+  }
+
+  /* Content Styling */
+  .post-content {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text);
+  }
+
+  .post-content > * + * {
+    margin-top: 28px;
+  }
+
+  .post-content h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  .post-content h2 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-top: 48px;
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
-    font-style: italic;
   }
-  .article-body h3 {
-    font-family: var(--mono);
-    font-size: 13px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--accent);
+
+  .post-content h3 {
+    font-size: 22px;
+    font-weight: 600;
     margin-top: 36px;
     margin-bottom: 12px;
   }
-  .article-body h4 {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 28px;
-    margin-bottom: 8px;
-  }
 
-  .article-body a {
+  .post-content a {
     color: var(--accent);
     text-decoration: none;
-    border-bottom: 1px solid rgba(94,243,210,.3);
-    transition: border-color .1s;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
   }
-  .article-body a:hover { border-color: var(--accent); }
 
-  .article-body ul,
-  .article-body ol {
+  .post-content a:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .post-content code {
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 14px;
+    padding: 2px 6px;
+    background: var(--code-bg);
+    border-radius: 4px;
+    color: var(--code-text);
+  }
+
+  .post-content pre {
+    background: var(--code-bg);
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 32px 0;
+  }
+
+  .post-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .post-content blockquote {
+    border-left: 3px solid var(--accent);
     padding-left: 20px;
-    color: #c8cad0;
-  }
-  .article-body li + li { margin-top: 6px; }
-
-  .article-body blockquote {
-    border-left: 2px solid var(--accent);
-    padding: 2px 0 2px 18px;
-    color: var(--muted);
+    margin: 32px 0;
+    color: var(--text-light);
     font-style: italic;
   }
 
-  /* inline code */
-  .article-body code {
-    font-family: var(--mono);
-    font-size: 13px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 1px 5px;
-    border-radius: 2px;
-    color: #ff79c6;
+  .post-content ul, 
+  .post-content ol {
+    padding-left: 24px;
   }
 
-  /* code blocks */
-  .article-body pre {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--border);
-    padding: 18px 20px;
-    border-radius: 3px;
-    overflow-x: auto;
-    margin: 28px 0;
-    position: relative;
-  }
-  .article-body pre:hover { border-left-color: var(--accent); }
-  .article-body pre code {
-    background: none;
-    border: none;
-    padding: 0;
-    color: #d4d5da;
-    font-size: 13px;
-    line-height: 1.65;
+  .post-content li {
+    margin: 8px 0;
   }
 
-  .article-body img {
+  .post-content img {
     max-width: 100%;
-    border-radius: 3px;
-    border: 1px solid var(--border);
-    display: block;
-    margin: 28px auto;
+    border-radius: 8px;
+    margin: 32px 0;
   }
 
-  .article-body hr {
+  .post-content hr {
     border: none;
     border-top: 1px solid var(--border);
     margin: 48px 0;
   }
 
-  /* ── post footer ── */
   .post-footer {
-    margin-top: 72px;
-    padding-top: 28px;
+    margin-top: 64px;
+    padding-top: 32px;
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 16px;
     flex-wrap: wrap;
+    gap: 16px;
   }
+
   .post-footer a {
-    font-size: 11px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--muted);
+    font-size: 14px;
+    color: var(--text-light);
     text-decoration: none;
-    transition: color .12s;
+    transition: color 0.2s ease;
   }
-  .post-footer a:hover { color: var(--accent); }
+
+  .post-footer a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 640px) {
+    .post-title {
+      font-size: 32px;
+    }
+    .post-content {
+      font-size: 16px;
+    }
+  }
 </style>
 
-<div class="article-wrap">
-  <a class="back" href="/">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    all posts
+<div class="post-container">
+  <a href="/" class="post-back">
+    ← Back to all posts
   </a>
 
-  <div class="article-header">
-    <div class="article-tags">
+  <div class="post-header">
+    <div class="post-tags">
       {% for tag in page.tags %}
-        {% assign slug = tag | downcase %}
-        {% assign known = "osint ctf research build writeup" %}
-        {% if known contains slug %}
-          <span class="chip chip-{{ slug }}">{{ tag }}</span>
-        {% else %}
-          <span class="chip chip-default">{{ tag }}</span>
-        {% endif %}
+        <span class="post-tag">{{ tag }}</span>
       {% endfor %}
     </div>
-    <h1 class="article-title">{{ page.title }}</h1>
-    <div class="article-meta">{{ page.date | date: "%B %d, %Y" }}</div>
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <span>{{ page.date | date: "%B %d, %Y" }}</span>
+      <span>·</span>
+      <span>{{ content | number_of_words }} words</span>
+    </div>
   </div>
 
   {% if page.image %}
-    <img class="hero-img" src="{{ page.image }}" alt="{{ page.title }}" />
+    <img class="post-image" src="{{ page.image }}" alt="{{ page.title }}">
   {% endif %}
 
-  <article class="article-body">
+  <div class="post-content">
     {{ content }}
-  </article>
+  </div>
 
   <div class="post-footer">
-    <a href="/">← back to all posts</a>
-    <a href="https://github.com/adityajshettigar" target="_blank" rel="noopener">github ↗</a>
+    <a href="/">← Browse all posts</a>
+    <a href="https://github.com/adityajshettigar" target="_blank" rel="noopener">GitHub →</a>
   </div>
 </div>

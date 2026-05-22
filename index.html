@@ -1,283 +1,320 @@
 ---
 layout: default
 ---
+
 <style>
-  /* ── about strip ── */
-  .about {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 56px 24px 40px;
-    border-bottom: 1px solid var(--border);
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 32px;
-    align-items: end;
-  }
-  .about-name {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .about h1 {
-    font-family: var(--serif);
-    font-size: clamp(30px, 4.5vw, 44px);
-    font-weight: 400;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.1;
-    margin-bottom: 14px;
-  }
-  .about-bio {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.7;
-    max-width: 480px;
-  }
-  .about-bio strong {
-    color: var(--text);
-    font-weight: 400;
-  }
-  .about-status {
-    text-align: right;
-    flex-shrink: 0;
-  }
-  .status-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .status-item {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 3px;
-    white-space: nowrap;
-  }
-  .status-item .dot {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-right: 6px;
-    animation: pulse 2.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: .3; }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  /* ── log header ── */
-  .log-header {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 28px 24px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .log-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: .1em;
-    text-transform: uppercase;
-  }
-  .log-count {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
+  :root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --border: #e6e6e5;
+    --text: #1c1c1c;
+    --text-light: #5e5e5e;
+    --accent: #0a5c4e;
+    --accent-light: #e6f4f1;
+    --code-bg: #f4f4f3;
   }
 
-  /* ── filters ── */
-  .filter-row {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 14px 24px;
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    border-bottom: 1px solid var(--border);
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a;
+      --surface: #252525;
+      --border: #333333;
+      --text: #e5e5e5;
+      --text-light: #a0a0a0;
+      --accent: #7ab3a8;
+      --accent-light: #2a3a36;
+      --code-bg: #2a2a2a;
+    }
   }
-  .f {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 3px 9px;
-    cursor: pointer;
-    transition: all .1s;
-    border-radius: 2px;
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
     line-height: 1.6;
   }
-  .f:hover { color: var(--text); border-color: var(--muted); }
-  .f.on { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 500; }
 
-  /* ── post list ── */
-  .post-list {
+  .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 0 24px 100px;
+    padding: 0 24px;
   }
-  .post-entry {
-    display: grid;
-    grid-template-columns: 64px 1fr auto;
-    gap: 0 20px;
-    align-items: start;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    color: inherit;
-  }
-  .post-entry:hover .post-title { color: var(--accent); }
 
-  .post-date {
-    font-size: 11px;
-    color: var(--muted);
-    white-space: nowrap;
-    padding-top: 3px;
-    letter-spacing: .02em;
+  /* Hero Section */
+  .hero {
+    padding: 80px 0 48px;
+    border-bottom: 1px solid var(--border);
   }
-  .post-title {
-    font-family: var(--serif);
-    font-size: 20px;
-    font-weight: 400;
+
+  .hero-badge {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 20px;
     color: var(--text);
-    line-height: 1.25;
-    transition: color .12s;
   }
-  .post-excerpt {
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.55;
-    margin-top: 5px;
-    max-width: 460px;
+
+  .hero p {
+    font-size: 18px;
+    color: var(--text-light);
+    max-width: 560px;
+    margin-bottom: 24px;
   }
-  .post-tags {
+
+  .hero-meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--text-light);
+  }
+
+  .hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Section Headers */
+  .section-header {
+    margin: 64px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .section-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .post-count {
+    font-size: 14px;
+    color: var(--text-light);
+    font-feature-settings: 'tnum';
+  }
+
+  /* Filter Pills */
+  .filters {
+    margin-bottom: 48px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.2s ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* Post List */
+  .post-list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    align-items: flex-end;
-    padding-top: 4px;
+    gap: 32px;
   }
 
-  /* ── tag chips ── */
-  .chip {
-    font-size: 9px;
-    font-family: var(--mono);
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    padding: 2px 7px;
-    border-radius: 2px;
+  .post-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    text-decoration: none;
+    transition: transform 0.1s ease;
+  }
+
+  .post-item:hover .post-title {
+    color: var(--accent);
+  }
+
+  .post-date {
+    font-size: 14px;
+    font-feature-settings: 'tnum';
+    color: var(--text-light);
     white-space: nowrap;
-    border: 1px solid transparent;
+    min-width: 85px;
   }
-  .chip-osint    { color: #f5c842; background: rgba(245,200,66,.08);  border-color: rgba(245,200,66,.18); }
-  .chip-ctf      { color: #60b8f0; background: rgba(96,184,240,.08);  border-color: rgba(96,184,240,.18); }
-  .chip-research { color: #b39ddb; background: rgba(179,157,219,.08); border-color: rgba(179,157,219,.18); }
-  .chip-build    { color: var(--accent); background: var(--accent-dim); border-color: rgba(94,243,210,.18); }
-  .chip-writeup  { color: #f48fb1; background: rgba(244,143,177,.08); border-color: rgba(244,143,177,.18); }
-  .chip-default  { color: var(--muted); background: rgba(86,88,105,.08); border-color: rgba(86,88,105,.2); }
 
-  .empty {
-    padding: 48px 0;
+  .post-content {
+    flex: 1;
+  }
+
+  .post-title {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 8px;
+    transition: color 0.15s ease;
+  }
+
+  .post-excerpt {
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
     font-size: 12px;
-    color: var(--muted);
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: var(--code-bg);
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.15s ease;
   }
 
-  @media (max-width: 600px) {
-    .about { grid-template-columns: 1fr; gap: 20px; }
-    .about-status { text-align: left; }
-    .post-entry { grid-template-columns: 1fr; gap: 6px; }
-    .post-tags { flex-direction: row; align-items: flex-start; }
-    .post-date { padding-top: 0; }
+  .tag:hover {
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  /* Empty State */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-light);
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero {
+      padding: 48px 0 32px;
+    }
+    .hero h1 {
+      font-size: 36px;
+    }
+    .hero p {
+      font-size: 16px;
+    }
+    .post-item {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .post-date {
+      font-size: 12px;
+    }
+    .section-header {
+      margin: 48px 0 24px;
+    }
   }
 </style>
 
-<!-- about -->
-<div class="about">
-  <div>
-    <div class="about-name">// aditya j shettigar</div>
-    <h1>Security researcher.<br>Builder of things.</h1>
-    <p class="about-bio">
-      M.Tech CSE student at <strong>VIT Amaravati</strong> — into OSINT, cybersecurity research, 
-      full-stack dev, and IoT. Currently building <strong>Mr. Pattedaara</strong>, an OSINT 
-      investigation platform for Indian law enforcement, and <strong>Shabdavedhi</strong>, 
-      an acoustic forensics tool. SIH 2025 pre-finalist.
-    </p>
-  </div>
-  <div class="about-status">
-    <div class="status-label">currently</div>
-    <div class="status-item"><span class="dot"></span>building pattedaara</div>
-    <div class="status-item"><span class="dot"></span>VIT Amaravati</div>
-  </div>
-</div>
-
-<!-- log header + filters -->
-<div class="log-header">
-  <span class="log-title">// field notes</span>
-  <span class="log-count">{{ site.posts | size }} entries</span>
-</div>
-
-<div class="filter-row" id="filterRow">
-  <button class="f on" data-tag="all">all</button>
-  <button class="f" data-tag="osint">osint</button>
-  <button class="f" data-tag="ctf">ctf</button>
-  <button class="f" data-tag="research">research</button>
-  <button class="f" data-tag="build">build</button>
-  <button class="f" data-tag="writeup">writeup</button>
-</div>
-
-<div class="post-list" id="postList">
-  {% for post in site.posts %}
-  <a class="post-entry" href="{{ post.url }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
-    <span class="post-date">{{ post.date | date: "%b '%y" }}</span>
-    <div>
-      <div class="post-title">{{ post.title }}</div>
-      {% if post.excerpt %}
-      <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 18 }}</div>
-      {% endif %}
+<div class="container">
+  <div class="hero">
+    <div class="hero-badge">Security Research & Engineering</div>
+    <h1>Aditya J Shettigar</h1>
+    <p>M.Tech CSE @ VIT Amaravati. Building OSINT platforms, acoustic forensics tools, and documenting the journey.</p>
+    <div class="hero-meta">
+      <span>📍 VIT Amaravati</span>
+      <span>🔨 Building Mr. Pattedaara</span>
+      <span>🏆 SIH 2025 Pre-finalist</span>
     </div>
-    <div class="post-tags">
-      {% for tag in post.tags %}
-        {% assign slug = tag | downcase %}
-        {% assign known = "osint ctf research build writeup" %}
-        {% if known contains slug %}
-          <span class="chip chip-{{ slug }}">{{ tag }}</span>
-        {% else %}
-          <span class="chip chip-default">{{ tag }}</span>
-        {% endif %}
-      {% endfor %}
-    </div>
-  </a>
-  {% endfor %}
+  </div>
 
-  {% if site.posts.size == 0 %}
-  <p class="empty">// no posts yet. check back soon.</p>
-  {% endif %}
+  <div class="section-header">
+    <h2>Field Notes</h2>
+    <div class="post-count">{{ site.posts | size }} entries</div>
+  </div>
+
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="osint">OSINT</button>
+    <button class="filter-btn" data-filter="ctf">CTF</button>
+    <button class="filter-btn" data-filter="research">Research</button>
+    <button class="filter-btn" data-filter="build">Build</button>
+    <button class="filter-btn" data-filter="writeup">Writeup</button>
+  </div>
+
+  <div class="post-list" id="post-list">
+    {% for post in site.posts %}
+      <a class="post-item" href="{{ post.url }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
+        <div class="post-date">{{ post.date | date: "%b %d, %Y" }}</div>
+        <div class="post-content">
+          <div class="post-title">{{ post.title }}</div>
+          {% if post.excerpt %}
+            <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</div>
+          {% endif %}
+          <div class="post-tags">
+            {% for tag in post.tags limit:3 %}
+              <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </a>
+    {% else %}
+      <div class="empty-state">
+        <p>No posts yet. Check back soon for security research, CTF writeups, and build logs.</p>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 
 <script>
-  const btns  = document.querySelectorAll('.f');
-  const posts = document.querySelectorAll('.post-entry');
-  btns.forEach(btn => {
+  const filters = document.querySelectorAll('.filter-btn');
+  const posts = document.querySelectorAll('.post-item');
+
+  filters.forEach(btn => {
     btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('on'));
-      btn.classList.add('on');
-      const tag = btn.dataset.tag;
-      posts.forEach(p => {
-        const tags = p.dataset.tags || '';
-        p.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+      const filter = btn.dataset.filter;
+      
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      posts.forEach(post => {
+        if (filter === 'all') {
+          post.style.display = 'flex';
+        } else {
+          const tags = post.dataset.tags || '';
+          post.style.display = tags.includes(filter) ? 'flex' : 'none';
+        }
       });
     });
   });
