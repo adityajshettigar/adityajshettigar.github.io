@@ -1,5 +1,5 @@
 title: "Aditya J Shettigar"
-description: "Security research, OSINT tools, CTF writeups and Project logs."
+description: "Security research, OSINT tools, CTF writeups and build logs."
 url: "https://adityajshettigar.github.io"
 baseurl: ""
 author: "Aditya J Shettigar"
@@ -9,12 +9,6 @@ markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
 excerpt_separator: <!--more-->
-
-# Collections
-collections:
-  posts:
-    output: true
-    permalink: /:year/:month/:day/:title/
 
 # Defaults
 defaults:
@@ -29,13 +23,10 @@ defaults:
     values:
       layout: "default"
 
-# Plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-sitemap
 
-# Exclude from build
 exclude:
   - Gemfile
   - Gemfile.lock
@@ -43,4 +34,3 @@ exclude:
   - vendor
   - .gitignore
   - README.md
-  - admin/

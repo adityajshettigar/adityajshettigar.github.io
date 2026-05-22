@@ -3,173 +3,158 @@ layout: default
 ---
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  :root {
-    --bg: #fafaf9;
-    --surface: #ffffff;
-    --border: #e6e6e5;
-    --text: #1c1c1c;
-    --text-light: #5e5e5e;
-    --accent: #0a5c4e;
-    --accent-light: #e6f4f1;
-    --code-bg: #f4f4f3;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1a1a;
-      --surface: #252525;
-      --border: #333333;
-      --text: #e5e5e5;
-      --text-light: #a0a0a0;
-      --accent: #7ab3a8;
-      --accent-light: #2a3a36;
-      --code-bg: #2a2a2a;
-    }
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', system-ui, sans-serif;
-    line-height: 1.6;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
-
   /* Hero Section */
   .hero {
-    padding: 80px 0 48px;
-    border-bottom: 1px solid var(--border);
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 28px 48px;
   }
 
   .hero-badge {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
-    color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 16px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 20px;
   }
 
   .hero h1 {
-    font-size: 48px;
-    font-weight: 700;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 56px;
+    font-weight: 500;
     letter-spacing: -0.02em;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    color: var(--text);
-  }
-
-  .hero p {
-    font-size: 18px;
-    color: var(--text-light);
-    max-width: 560px;
+    line-height: 1.15;
     margin-bottom: 24px;
+    color: var(--text-primary);
   }
 
-  .hero-meta {
+  .hero-description {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 32px;
+  }
+
+  .hero-stats {
     display: flex;
-    gap: 24px;
+    gap: 32px;
     flex-wrap: wrap;
-    font-size: 14px;
-    color: var(--text-light);
   }
 
-  .hero-meta span {
+  .hero-stats span {
+    font-size: 13px;
+    color: var(--text-tertiary);
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
+  .hero-stats span::before {
+    content: "→";
+    color: var(--accent);
+  }
+
   /* Section Headers */
   .section-header {
-    margin: 64px 0 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 28px 24px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    flex-wrap: wrap;
-    gap: 16px;
+    border-bottom: 1px solid var(--border);
   }
 
   .section-header h2 {
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--text);
+    font-family: 'Source Serif 4', serif;
+    font-size: 28px;
+    font-weight: 450;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
   }
 
-  .post-count {
-    font-size: 14px;
-    color: var(--text-light);
+  .section-count {
+    font-size: 13px;
+    color: var(--text-tertiary);
     font-feature-settings: 'tnum';
   }
 
-  /* Filter Pills */
+  /* Filters */
   .filters {
-    margin-bottom: 48px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 28px 28px 20px;
     display: flex;
-    gap: 8px;
+    gap: 12px;
     flex-wrap: wrap;
   }
 
   .filter-btn {
     background: transparent;
-    border: 1px solid var(--border);
-    padding: 6px 14px;
+    border: none;
+    padding: 6px 0;
     font-size: 13px;
-    font-family: inherit;
-    color: var(--text-light);
+    font-family: 'Inter', monospace;
+    font-weight: 450;
+    color: var(--text-tertiary);
     cursor: pointer;
-    border-radius: 30px;
-    transition: all 0.2s ease;
+    transition: color 0.2s ease;
+    position: relative;
+  }
+
+  .filter-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.2s ease;
   }
 
   .filter-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    color: var(--text-primary);
   }
 
   .filter-btn.active {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
+    color: var(--accent);
+  }
+
+  .filter-btn.active::after {
+    transform: scaleX(1);
   }
 
   /* Post List */
   .post-list {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 28px 80px;
   }
 
   .post-item {
     display: flex;
-    gap: 20px;
+    gap: 32px;
     align-items: flex-start;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
     text-decoration: none;
-    transition: transform 0.1s ease;
+    transition: all 0.2s ease;
   }
 
-  .post-item:hover .post-title {
-    color: var(--accent);
+  .post-item:hover {
+    padding-left: 12px;
   }
 
   .post-date {
-    font-size: 14px;
-    font-feature-settings: 'tnum';
-    color: var(--text-light);
+    font-size: 13px;
+    color: var(--text-tertiary);
     white-space: nowrap;
-    min-width: 85px;
+    min-width: 90px;
+    font-feature-settings: 'tnum';
   }
 
   .post-content {
@@ -177,19 +162,25 @@ layout: default
   }
 
   .post-title {
-    font-size: 20px;
-    font-weight: 600;
+    font-family: 'Source Serif 4', serif;
+    font-size: 22px;
+    font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--text);
+    color: var(--text-primary);
     margin-bottom: 8px;
-    transition: color 0.15s ease;
+    line-height: 1.3;
+    transition: color 0.2s ease;
+  }
+
+  .post-item:hover .post-title {
+    color: var(--accent);
   }
 
   .post-excerpt {
-    font-size: 15px;
-    color: var(--text-light);
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.55;
     margin-bottom: 12px;
-    line-height: 1.5;
   }
 
   .post-tags {
@@ -199,102 +190,102 @@ layout: default
   }
 
   .tag {
-    font-size: 12px;
-    padding: 2px 10px;
-    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 450;
+    padding: 2px 8px;
+    border-radius: 12px;
     background: var(--code-bg);
-    color: var(--text-light);
-    text-decoration: none;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
     transition: all 0.15s ease;
   }
 
-  .tag:hover {
-    background: var(--accent-light);
+  .post-item:hover .tag {
+    background: var(--accent-muted);
     color: var(--accent);
   }
 
   /* Empty State */
   .empty-state {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 60px 28px;
     text-align: center;
-    padding: 60px 20px;
-    color: var(--text-light);
     background: var(--surface);
-    border-radius: 12px;
     border: 1px solid var(--border);
+    border-radius: 4px;
   }
 
-  /* Responsive */
-  @media (max-width: 640px) {
-    .hero {
-      padding: 48px 0 32px;
-    }
+  .empty-state p {
+    color: var(--text-tertiary);
+    font-size: 14px;
+  }
+
+  @media (max-width: 680px) {
     .hero h1 {
-      font-size: 36px;
-    }
-    .hero p {
-      font-size: 16px;
+      font-size: 40px;
     }
     .post-item {
       flex-direction: column;
       gap: 8px;
     }
     .post-date {
-      font-size: 12px;
+      font-size: 11px;
     }
-    .section-header {
-      margin: 48px 0 24px;
+    .section-header h2 {
+      font-size: 24px;
     }
   }
 </style>
 
-<div class="container">
-  <div class="hero">
-    <div class="hero-badge">Security Research & Engineering</div>
-    <h1>Aditya J Shettigar</h1>
-    <p>M.Tech CSE @ VIT Amaravati. Building OSINT platforms, acoustic forensics tools, and documenting the journey.</p>
-    <div class="hero-meta">
-      <span>📍 VIT Amaravati</span>
-      <span>🔨 Building Mr. Pattedaara</span>
-      <span>🏆 SIH 2025 Pre-finalist</span>
-    </div>
+<div class="hero">
+  <div class="hero-badge">Security Research & Engineering</div>
+  <h1>Aditya J Shettigar</h1>
+  <div class="hero-description">
+    M.Tech CSE at VIT Amaravati. Building OSINT platforms, acoustic forensics tools, and documenting the journey.
   </div>
-
-  <div class="section-header">
-    <h2>Field Notes</h2>
-    <div class="post-count">{{ site.posts | size }} entries</div>
+  <div class="hero-stats">
+    <span>VIT Amaravati</span>
+    <span>Building Mr. Pattedaara</span>
+    <span>SIH 2025 Pre-finalist</span>
   </div>
+</div>
 
-  <div class="filters" id="filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="osint">OSINT</button>
-    <button class="filter-btn" data-filter="ctf">CTF</button>
-    <button class="filter-btn" data-filter="research">Research</button>
-    <button class="filter-btn" data-filter="build">Build</button>
-    <button class="filter-btn" data-filter="writeup">Writeup</button>
-  </div>
+<div class="section-header">
+  <h2>Field notes</h2>
+  <div class="section-count">{{ site.posts | size }} entries</div>
+</div>
 
-  <div class="post-list" id="post-list">
-    {% for post in site.posts %}
-      <a class="post-item" href="{{ post.url }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
-        <div class="post-date">{{ post.date | date: "%b %d, %Y" }}</div>
-        <div class="post-content">
-          <div class="post-title">{{ post.title }}</div>
-          {% if post.excerpt %}
-            <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</div>
-          {% endif %}
-          <div class="post-tags">
-            {% for tag in post.tags limit:3 %}
-              <span class="tag">{{ tag }}</span>
-            {% endfor %}
-          </div>
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="osint">OSINT</button>
+  <button class="filter-btn" data-filter="ctf">CTF</button>
+  <button class="filter-btn" data-filter="research">Research</button>
+  <button class="filter-btn" data-filter="build">Build</button>
+  <button class="filter-btn" data-filter="writeup">Writeup</button>
+</div>
+
+<div class="post-list" id="post-list">
+  {% for post in site.posts %}
+    <a class="post-item" href="{{ post.url }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
+      <div class="post-date">{{ post.date | date: "%b %d, '%y" }}</div>
+      <div class="post-content">
+        <div class="post-title">{{ post.title }}</div>
+        {% if post.excerpt %}
+          <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</div>
+        {% endif %}
+        <div class="post-tags">
+          {% for tag in post.tags limit:3 %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
         </div>
-      </a>
-    {% else %}
-      <div class="empty-state">
-        <p>No posts yet. Check back soon for security research, CTF writeups, and build logs.</p>
       </div>
-    {% endfor %}
-  </div>
+    </a>
+  {% else %}
+    <div class="empty-state">
+      <p>No posts yet. Check back soon for security research, CTF writeups, and build logs.</p>
+    </div>
+  {% endfor %}
 </div>
 
 <script>

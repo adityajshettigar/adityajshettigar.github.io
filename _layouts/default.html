@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if page.title %}{{ page.title }} — {% endif %}{{ site.title }}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
-  <meta name="author" content="{{ site.author }}">
   
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -19,80 +19,78 @@
     }
 
     :root {
-      --bg: #fafaf9;
+      --bg: #fefefe;
       --surface: #ffffff;
-      --border: #e6e6e5;
-      --text: #1c1c1c;
-      --text-light: #5e5e5e;
-      --accent: #0a5c4e;
-      --accent-light: #e6f4f1;
-      --code-bg: #f4f4f3;
-      --code-text: #d73a49;
+      --border: #eaeaea;
+      --text-primary: #111111;
+      --text-secondary: #5b5b5b;
+      --text-tertiary: #8a8a8a;
+      --accent: #d44c2f;
+      --accent-muted: #fae9e5;
+      --code-bg: #f7f7f7;
+      --code-border: #e8e8e8;
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1a1a1a;
-        --surface: #252525;
-        --border: #333333;
-        --text: #e5e5e5;
-        --text-light: #a0a0a0;
-        --accent: #7ab3a8;
-        --accent-light: #2a3a36;
-        --code-bg: #2a2a2a;
-        --code-text: #ff7b72;
+        --bg: #0d0d0d;
+        --surface: #141414;
+        --border: #242424;
+        --text-primary: #ededed;
+        --text-secondary: #a0a0a0;
+        --text-tertiary: #707070;
+        --accent: #e8684a;
+        --accent-muted: #2a1a16;
+        --code-bg: #1a1a1a;
+        --code-border: #2a2a2a;
       }
     }
 
     body {
       background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.6;
+      letter-spacing: -0.003em;
     }
 
     /* Navigation */
     .site-nav {
+      padding: 28px 0;
       border-bottom: 1px solid var(--border);
       background: var(--bg);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      background: rgba(var(--bg-rgb, 250, 250, 249), 0.8);
     }
 
     .nav-container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px;
-      height: 64px;
+      padding: 0 28px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
     }
 
     .logo {
-      font-size: 18px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--text);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
       text-decoration: none;
     }
 
-    .logo span {
+    .logo-dot {
       color: var(--accent);
     }
 
     .nav-links {
       display: flex;
-      gap: 28px;
+      gap: 32px;
     }
 
     .nav-links a {
       font-size: 14px;
-      font-weight: 500;
-      color: var(--text-light);
+      font-weight: 450;
+      color: var(--text-secondary);
       text-decoration: none;
       transition: color 0.2s ease;
     }
@@ -101,41 +99,40 @@
       color: var(--accent);
     }
 
-    /* Main Content */
     main {
-      min-height: 70vh;
+      min-height: 60vh;
     }
 
     /* Footer */
     .site-footer {
+      margin-top: 100px;
+      padding: 48px 28px;
       border-top: 1px solid var(--border);
-      margin-top: 80px;
-      padding: 48px 24px;
     }
 
     .footer-container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 24px;
     }
 
-    .footer-copyright {
+    .footer-text {
       font-size: 13px;
-      color: var(--text-light);
+      color: var(--text-tertiary);
     }
 
     .footer-links {
       display: flex;
-      gap: 24px;
+      gap: 28px;
     }
 
     .footer-links a {
       font-size: 13px;
-      color: var(--text-light);
+      color: var(--text-tertiary);
       text-decoration: none;
       transition: color 0.2s ease;
     }
@@ -155,11 +152,11 @@
 <body>
   <nav class="site-nav">
     <div class="nav-container">
-      <a href="/" class="logo">aditya<span>.</span></a>
+      <a href="/" class="logo">aditya<span class="logo-dot">·</span></a>
       <div class="nav-links">
         <a href="/">writings</a>
-        <a href="https://github.com/adityajshettigar" target="_blank" rel="noopener">github</a>
-        <a href="https://linkedin.com/in/adityajshettigar" target="_blank" rel="noopener">linkedin</a>
+        <a href="https://github.com/adityajshettigar" target="_blank">github</a>
+        <a href="https://linkedin.com/in/adityajshettigar" target="_blank">linkedin</a>
       </div>
     </div>
   </nav>
@@ -170,8 +167,8 @@
 
   <footer class="site-footer">
     <div class="footer-container">
-      <div class="footer-copyright">
-        © {{ site.time | date: '%Y' }} {{ site.author }}
+      <div class="footer-text">
+        © {{ site.time | date: '%Y' }} Aditya J Shettigar
       </div>
       <div class="footer-links">
         <a href="mailto:aditya@adityajshettigar.in">email</a>
