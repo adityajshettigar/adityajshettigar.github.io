@@ -2,28 +2,97 @@
 layout: default
 ---
 <style>
-  /* ── page header ── */
-  .log-header {
+  /* ── about strip ── */
+  .about {
     max-width: 800px;
     margin: 0 auto;
-    padding: 64px 24px 40px;
+    padding: 56px 24px 40px;
     border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
   }
-  .log-header h1 {
+  .about-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .about h1 {
     font-family: var(--serif);
-    font-size: clamp(34px, 5vw, 50px);
+    font-size: clamp(30px, 4.5vw, 44px);
     font-weight: 400;
     font-style: italic;
     color: var(--text);
-    line-height: 1.05;
-    margin-bottom: 10px;
+    line-height: 1.1;
+    margin-bottom: 14px;
   }
-  .log-header .sub {
-    font-size: 12px;
+  .about-bio {
+    font-size: 13px;
     color: var(--muted);
-    letter-spacing: .04em;
+    line-height: 1.7;
+    max-width: 480px;
   }
-  .log-header .sub .count {
+  .about-bio strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+  .about-status {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .status-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .status-item {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    white-space: nowrap;
+  }
+  .status-item .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 6px;
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: .3; }
+  }
+
+  /* ── log header ── */
+  .log-header {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 28px 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .log-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .log-count {
+    font-family: var(--mono);
+    font-size: 11px;
     color: var(--accent);
   }
 
@@ -31,7 +100,7 @@ layout: default
   .filter-row {
     max-width: 800px;
     margin: 0 auto;
-    padding: 18px 24px;
+    padding: 14px 24px;
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
@@ -60,7 +129,6 @@ layout: default
     margin: 0 auto;
     padding: 0 24px 100px;
   }
-
   .post-entry {
     display: grid;
     grid-template-columns: 64px 1fr auto;
@@ -72,7 +140,6 @@ layout: default
     color: inherit;
   }
   .post-entry:hover .post-title { color: var(--accent); }
-  .post-entry:first-child { padding-top: 24px; }
 
   .post-date {
     font-size: 11px;
@@ -104,7 +171,7 @@ layout: default
     padding-top: 4px;
   }
 
-  /* ── custom tag chips ── */
+  /* ── tag chips ── */
   .chip {
     font-size: 9px;
     font-family: var(--mono);
@@ -115,15 +182,13 @@ layout: default
     white-space: nowrap;
     border: 1px solid transparent;
   }
-  /* each category gets its own color */
-  .chip-osint    { color: #f5c842; background: rgba(245,200,66,.08); border-color: rgba(245,200,66,.18); }
-  .chip-ctf      { color: #60b8f0; background: rgba(96,184,240,.08); border-color: rgba(96,184,240,.18); }
+  .chip-osint    { color: #f5c842; background: rgba(245,200,66,.08);  border-color: rgba(245,200,66,.18); }
+  .chip-ctf      { color: #60b8f0; background: rgba(96,184,240,.08);  border-color: rgba(96,184,240,.18); }
   .chip-research { color: #b39ddb; background: rgba(179,157,219,.08); border-color: rgba(179,157,219,.18); }
   .chip-build    { color: var(--accent); background: var(--accent-dim); border-color: rgba(94,243,210,.18); }
   .chip-writeup  { color: #f48fb1; background: rgba(244,143,177,.08); border-color: rgba(244,143,177,.18); }
   .chip-default  { color: var(--muted); background: rgba(86,88,105,.08); border-color: rgba(86,88,105,.2); }
 
-  /* ── empty state ── */
   .empty {
     padding: 48px 0;
     font-size: 12px;
@@ -131,21 +196,37 @@ layout: default
   }
 
   @media (max-width: 600px) {
-    .post-entry {
-      grid-template-columns: 1fr;
-      gap: 6px;
-    }
-    .post-tags {
-      flex-direction: row;
-      align-items: flex-start;
-    }
+    .about { grid-template-columns: 1fr; gap: 20px; }
+    .about-status { text-align: left; }
+    .post-entry { grid-template-columns: 1fr; gap: 6px; }
+    .post-tags { flex-direction: row; align-items: flex-start; }
     .post-date { padding-top: 0; }
   }
 </style>
 
+<!-- about -->
+<div class="about">
+  <div>
+    <div class="about-name">// aditya j shettigar</div>
+    <h1>Security researcher.<br>Builder of things.</h1>
+    <p class="about-bio">
+      M.Tech CSE student at <strong>VIT Amaravati</strong> — into OSINT, cybersecurity research, 
+      full-stack dev, and IoT. Currently building <strong>Mr. Pattedaara</strong>, an OSINT 
+      investigation platform for Indian law enforcement, and <strong>Shabdavedhi</strong>, 
+      an acoustic forensics tool. SIH 2025 pre-finalist.
+    </p>
+  </div>
+  <div class="about-status">
+    <div class="status-label">currently</div>
+    <div class="status-item"><span class="dot"></span>building pattedaara</div>
+    <div class="status-item"><span class="dot"></span>VIT Amaravati</div>
+  </div>
+</div>
+
+<!-- log header + filters -->
 <div class="log-header">
-  <h1>Field Notes</h1>
-  <p class="sub">security research, osint tools, ctf writeups &amp; build logs &nbsp;·&nbsp; <span class="count">{{ site.posts | size }} entries</span></p>
+  <span class="log-title">// field notes</span>
+  <span class="log-count">{{ site.posts | size }} entries</span>
 </div>
 
 <div class="filter-row" id="filterRow">
@@ -189,7 +270,6 @@ layout: default
 <script>
   const btns  = document.querySelectorAll('.f');
   const posts = document.querySelectorAll('.post-entry');
-
   btns.forEach(btn => {
     btn.addEventListener('click', () => {
       btns.forEach(b => b.classList.remove('on'));
