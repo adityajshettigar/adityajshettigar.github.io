@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aditya's Blog - Admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Content Manager</title>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
@@ -14,89 +14,28 @@
           name: 'github',
           repo: 'adityajshettigar/adityajshettigar.github.io',
           branch: 'main',
-          site_domain: 'adityajshettigar.github.io',
-          base_url: 'https://api.netlify.com',
-          auth_endpoint: 'auth',
         },
         local_backend: false,
         media_folder: 'assets/images',
         public_folder: '/assets/images',
-        slug: {
-          encoding: 'unicode',
-          clean_accents: true,
-          sanitize_replacement: '-',
-        },
         collections: [
           {
             name: 'posts',
             label: 'Blog Posts',
-            label_singular: 'Post',
             folder: '_posts',
             create: true,
             slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
-            identifier_field: 'title',
-            editor: {
-              preview: true,
-            },
             fields: [
-              {
-                label: 'Layout',
-                name: 'layout',
-                widget: 'hidden',
-                default: 'post',
-              },
-              {
-                label: 'Title',
-                name: 'title',
-                widget: 'string',
-                required: true,
-              },
-              {
-                label: 'Publish Date',
-                name: 'date',
-                widget: 'datetime',
-                date_format: 'YYYY-MM-DD',
-                time_format: 'HH:mm',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                required: true,
-                default: '',
-              },
-              {
-                label: 'Tags',
-                name: 'tags',
-                widget: 'list',
-                required: true,
-                default: ['research'],
-                allow_add: true,
-              },
-              {
-                label: 'Excerpt',
-                name: 'excerpt',
-                widget: 'text',
-                required: true,
-                hint: 'A short summary shown on the homepage',
-              },
-              {
-                label: 'Featured Image',
-                name: 'image',
-                widget: 'image',
-                required: false,
-                media_library: {
-                  config: {
-                    multiple: false,
-                  },
-                },
-              },
-              {
-                label: 'Body',
-                name: 'body',
-                widget: 'markdown',
-                required: true,
-              },
-            ],
-          },
-        ],
-      },
+              { label: 'Layout', name: 'layout', widget: 'hidden', default: 'post' },
+              { label: 'Title', name: 'title', widget: 'string' },
+              { label: 'Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false },
+              { label: 'Tags', name: 'tags', widget: 'list', default: ['research'] },
+              { label: 'Excerpt', name: 'excerpt', widget: 'text' },
+              { label: 'Body', name: 'body', widget: 'markdown' }
+            ]
+          }
+        ]
+      }
     });
   </script>
 </body>
