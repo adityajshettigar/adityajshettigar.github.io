@@ -2,43 +2,244 @@
 layout: default
 ---
 <style>
-  .article-container { max-width: 720px; margin: 0 auto; padding: 60px 24px 120px; }
-  .article-header { margin-bottom: 40px; }
-  .article-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; letter-spacing: 0.1em; }
-  .article-title { font-family: var(--serif); font-size: clamp(32px, 5vw, 46px); font-weight: 400; line-height: 1.2; color: var(--text); margin-bottom: 16px; }
-  .article-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .article-hero-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); margin-bottom: 40px; }
-  
-  /* Markdown Specific Typography Styling */
-  .article-content { font-size: 16px; line-height: 1.8; color: #d1d2d5; }
-  .article-content p { margin-bottom: 24px; }
-  .article-content h2, .article-content h3 { font-family: var(--serif); font-weight: 400; color: var(--text); margin: 40px 0 16px; }
-  .article-content h2 { font-size: 28px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-  .article-content h3 { font-size: 22px; }
-  .article-content a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent); }
-  .article-content a:hover { border-bottom-style: solid; }
-  
-  /* Code & Syntax Snippets Blocks */
-  .article-content code { font-family: var(--mono); font-size: 14px; background: var(--surface); padding: 3px 6px; border-radius: 3px; color: #ff79c6; border: 1px solid var(--border); }
-  .article-content pre { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px; overflow-x: auto; margin-bottom: 24px; }
-  .article-content pre code { background: transparent; padding: 0; border: none; color: inherit; font-size: 13px; }
-  .article-content img { max-width: 100%; border-radius: 4px; border: 1px solid var(--border); margin: 24px 0; }
+  .article-wrap {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 52px 24px 120px;
+  }
+
+  /* back link */
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 40px;
+    transition: color .12s;
+  }
+  .back:hover { color: var(--accent); }
+  .back svg { transition: transform .12s; }
+  .back:hover svg { transform: translateX(-3px); }
+
+  /* header */
+  .article-header { margin-bottom: 36px; }
+
+  .article-tags {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .chip {
+    font-size: 9px;
+    font-family: var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+  }
+  .chip-osint    { color: #f5c842; background: rgba(245,200,66,.08); border-color: rgba(245,200,66,.18); }
+  .chip-ctf      { color: #60b8f0; background: rgba(96,184,240,.08); border-color: rgba(96,184,240,.18); }
+  .chip-research { color: #b39ddb; background: rgba(179,157,219,.08); border-color: rgba(179,157,219,.18); }
+  .chip-build    { color: var(--accent); background: var(--accent-dim); border-color: rgba(94,243,210,.18); }
+  .chip-writeup  { color: #f48fb1; background: rgba(244,143,177,.08); border-color: rgba(244,143,177,.18); }
+  .chip-default  { color: var(--muted); background: rgba(86,88,105,.08); border-color: rgba(86,88,105,.2); }
+
+  .article-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4.5vw, 42px);
+    font-weight: 400;
+    line-height: 1.18;
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .article-meta {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+
+  /* hero image */
+  .hero-img {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* ── article content ── */
+  .article-body {
+    font-size: 15.5px;
+    line-height: 1.82;
+    color: #c8cad0;
+  }
+
+  .article-body > * + * { margin-top: 22px; }
+
+  .article-body p { }
+  .article-body p + p { margin-top: 18px; }
+
+  .article-body h2 {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--text);
+    margin-top: 52px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    font-style: italic;
+  }
+  .article-body h3 {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+  .article-body h4 {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 28px;
+    margin-bottom: 8px;
+  }
+
+  .article-body a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(94,243,210,.3);
+    transition: border-color .1s;
+  }
+  .article-body a:hover { border-color: var(--accent); }
+
+  .article-body ul,
+  .article-body ol {
+    padding-left: 20px;
+    color: #c8cad0;
+  }
+  .article-body li + li { margin-top: 6px; }
+
+  .article-body blockquote {
+    border-left: 2px solid var(--accent);
+    padding: 2px 0 2px 18px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 2px;
+    color: #ff79c6;
+  }
+
+  /* code blocks */
+  .article-body pre {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--border);
+    padding: 18px 20px;
+    border-radius: 3px;
+    overflow-x: auto;
+    margin: 28px 0;
+    position: relative;
+  }
+  .article-body pre:hover { border-left-color: var(--accent); }
+  .article-body pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #d4d5da;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .article-body img {
+    max-width: 100%;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    display: block;
+    margin: 28px auto;
+  }
+
+  .article-body hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* ── post footer ── */
+  .post-footer {
+    margin-top: 72px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .post-footer a {
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .12s;
+  }
+  .post-footer a:hover { color: var(--accent); }
 </style>
 
-<div class="article-container">
+<div class="article-wrap">
+  <a class="back" href="/">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    all posts
+  </a>
+
   <div class="article-header">
-    <div class="article-label">// {% for tag in page.tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}</div>
-    <h1 class="article-title">{{ page.title }}</h1>
-    <div class="article-meta">
-      <span>{{ page.date | date: "%B %d, %Y" }}</span>
+    <div class="article-tags">
+      {% for tag in page.tags %}
+        {% assign slug = tag | downcase %}
+        {% assign known = "osint ctf research build writeup" %}
+        {% if known contains slug %}
+          <span class="chip chip-{{ slug }}">{{ tag }}</span>
+        {% else %}
+          <span class="chip chip-default">{{ tag }}</span>
+        {% endif %}
+      {% endfor %}
     </div>
+    <h1 class="article-title">{{ page.title }}</h1>
+    <div class="article-meta">{{ page.date | date: "%B %d, %Y" }}</div>
   </div>
 
   {% if page.image %}
-    <img class="article-hero-img" src="{{ page.image }}" alt="{{ page.title }}" />
+    <img class="hero-img" src="{{ page.image }}" alt="{{ page.title }}" />
   {% endif %}
 
-  <article class="article-content">
+  <article class="article-body">
     {{ content }}
   </article>
+
+  <div class="post-footer">
+    <a href="/">← back to all posts</a>
+    <a href="https://github.com/adityajshettigar" target="_blank" rel="noopener">github ↗</a>
+  </div>
 </div>
