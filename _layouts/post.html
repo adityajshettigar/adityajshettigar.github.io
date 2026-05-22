@@ -1,0 +1,44 @@
+---
+layout: default
+---
+<style>
+  .article-container { max-width: 720px; margin: 0 auto; padding: 60px 24px 120px; }
+  .article-header { margin-bottom: 40px; }
+  .article-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; letter-spacing: 0.1em; }
+  .article-title { font-family: var(--serif); font-size: clamp(32px, 5vw, 46px); font-weight: 400; line-height: 1.2; color: var(--text); margin-bottom: 16px; }
+  .article-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .article-hero-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); margin-bottom: 40px; }
+  
+  /* Markdown Specific Typography Styling */
+  .article-content { font-size: 16px; line-height: 1.8; color: #d1d2d5; }
+  .article-content p { margin-bottom: 24px; }
+  .article-content h2, .article-content h3 { font-family: var(--serif); font-weight: 400; color: var(--text); margin: 40px 0 16px; }
+  .article-content h2 { font-size: 28px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  .article-content h3 { font-size: 22px; }
+  .article-content a { color: var(--accent); text-decoration: none; border-bottom: 1px dashed var(--accent); }
+  .article-content a:hover { border-bottom-style: solid; }
+  
+  /* Code & Syntax Snippets Blocks */
+  .article-content code { font-family: var(--mono); font-size: 14px; background: var(--surface); padding: 3px 6px; border-radius: 3px; color: #ff79c6; border: 1px solid var(--border); }
+  .article-content pre { background: var(--surface); border: 1px solid var(--border); padding: 20px; border-radius: 4px; overflow-x: auto; margin-bottom: 24px; }
+  .article-content pre code { background: transparent; padding: 0; border: none; color: inherit; font-size: 13px; }
+  .article-content img { max-width: 100%; border-radius: 4px; border: 1px solid var(--border); margin: 24px 0; }
+</style>
+
+<div class="article-container">
+  <div class="article-header">
+    <div class="article-label">// {% for tag in page.tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}</div>
+    <h1 class="article-title">{{ page.title }}</h1>
+    <div class="article-meta">
+      <span>{{ page.date | date: "%B %d, %Y" }}</span>
+    </div>
+  </div>
+
+  {% if page.image %}
+    <img class="article-hero-img" src="{{ page.image }}" alt="{{ page.title }}" />
+  {% endif %}
+
+  <article class="article-content">
+    {{ content }}
+  </article>
+</div>

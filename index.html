@@ -1,412 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Writings — Aditya J Shettigar</title>
-  <meta name="description" content="Security research, OSINT, and building in the open — by Aditya J Shettigar." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+---
+layout: default
+---
+<style>
+  header { max-width: 860px; margin: 0 auto; padding: 72px 24px 56px; border-bottom: 1px solid var(--border); }
+  .header-label { font-family: var(--mono); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+  header h1 { font-family: var(--serif); font-size: clamp(38px, 6vw, 58px); font-weight: 400; font-style: italic; line-height: 1.1; color: var(--text); margin-bottom: 16px; letter-spacing: -.01em; }
+  header p { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.7; }
+  .filter-bar { max-width: 860px; margin: 0 auto; padding: 28px 24px 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag-btn { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 6px 14px; border-radius: 2px; cursor: pointer; transition: all .15s; }
+  .tag-btn:hover { border-color: var(--muted); color: var(--text); }
+  .tag-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  main { max-width: 860px; margin: 0 auto; padding: 40px 24px 100px; }
+  .post-list { display: flex; flex-direction: column; gap: 0; }
 
-    :root {
-      --bg:        #0d0e10;
-      --surface:   #13151a;
-      --border:    #1e2028;
-      --text:      #e8e9ec;
-      --muted:     #6b6f7a;
-      --accent:    #5ef3d2;
-      --accent-dim:#1a3830;
-      --serif:     'Instrument Serif', Georgia, serif;
-      --mono:      'Geist Mono', 'Fira Code', monospace;
-      --sans:      'Geist', system-ui, sans-serif;
-    }
+  /* Featured Post Layout */
+  .post-card.featured { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 32px; background: var(--surface); text-decoration: none; color: inherit; transition: border-color .2s; }
+  .post-card.featured:hover { border-color: var(--accent); }
+  .post-card.featured .card-img { aspect-ratio: 4/3; overflow: hidden; position: relative; }
+  .post-card.featured .card-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.3) brightness(.85); transition: transform .4s ease, filter .4s ease; }
+  .post-card.featured:hover .card-img img { transform: scale(1.04); filter: grayscale(0) brightness(.95); }
+  .post-card.featured .card-body { padding: 36px 40px; display: flex; flex-direction: column; justify-content: space-between; }
 
-    html { scroll-behavior: smooth; }
+  /* Standard Row Layout */
+  .post-card.row { display: grid; grid-template-columns: 1fr 200px; gap: 32px; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; padding: 28px 0; align-items: center; transition: opacity .15s; }
+  .post-card.row:hover { opacity: .75; }
+  .post-card.row:hover .row-title { color: var(--accent); }
+  .post-card.row .card-img { width: 200px; aspect-ratio: 16/9; overflow: hidden; border-radius: 3px; }
+  .post-card.row .card-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(.2) brightness(.8); transition: filter .3s; }
+  .post-card.row:hover .card-img img { filter: grayscale(0) brightness(.95); }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.6;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
-    }
+  /* Metadata typography */
+  .card-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+  .card-title, .row-title { font-family: var(--serif); font-size: 26px; font-weight: 400; line-height: 1.25; color: var(--text); margin-bottom: 12px; transition: color .15s; }
+  .row-title { font-size: 20px; }
+  .card-excerpt { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 24px; flex: 1; }
+  .card-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 16px; }
+  .card-meta .dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; }
 
-    /* ── NOISE GRAIN OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9999;
-      opacity: .025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 128px 128px;
-    }
+  @media (max-width: 680px) {
+    .post-card.featured { grid-template-columns: 1fr; }
+    .post-card.featured .card-body { padding: 24px; }
+    .post-card.row { grid-template-columns: 1fr; gap: 16px; }
+    .post-card.row .card-img { width: 100%; }
+  }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(12px) saturate(1.4);
-      background: rgba(13,14,16,.85);
-    }
-    .nav-inner {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--accent);
-      text-decoration: none;
-      letter-spacing: .02em;
-    }
-    .nav-logo span { color: var(--muted); }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      transition: color .15s;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .fade-in { opacity: 0; transform: translateY(16px); animation: fadeUp .5s ease forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: none; } }
+</style>
 
-    /* ── HEADER ── */
-    header {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 72px 24px 56px;
-      border-bottom: 1px solid var(--border);
-    }
-    .header-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
-    }
-    header h1 {
-      font-family: var(--serif);
-      font-size: clamp(38px, 6vw, 58px);
-      font-weight: 400;
-      font-style: italic;
-      line-height: 1.1;
-      color: var(--text);
-      margin-bottom: 16px;
-      letter-spacing: -.01em;
-    }
-    header p {
-      font-size: 15px;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.7;
-    }
+<header>
+  <div class="header-label">// field notes</div>
+  <h1>Security, Systems &amp;<br>Stuff I Build</h1>
+  <p>Writeups on OSINT, cybersecurity research, and whatever rabbit hole I fell into this week.</p>
+</header>
 
-    /* ── FILTER BAR ── */
-    .filter-bar {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 28px 24px 0;
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .tag-btn {
-      font-family: var(--mono);
-      font-size: 11px;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 6px 14px;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: all .15s;
-    }
-    .tag-btn:hover { border-color: var(--muted); color: var(--text); }
-    .tag-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+<div class="filter-bar" id="filterBar">
+  <button class="tag-btn active" data-tag="all">All</button>
+  <button class="tag-btn" data-tag="osint">OSINT</button>
+  <button class="tag-btn" data-tag="ctf">CTF</button>
+  <button class="tag-btn" data-tag="research">Research</button>
+  <button class="tag-btn" data-tag="build">Build Log</button>
+</div>
 
-    /* ── POST LIST ── */
-    main {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 40px 24px 100px;
-    }
-
-    .post-list { display: flex; flex-direction: column; gap: 0; }
-
-    /* Featured first post */
-    .post-card.featured {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 2px;
-      background: var(--surface);
-      text-decoration: none;
-      color: inherit;
-      transition: border-color .2s;
-    }
-    .post-card.featured:hover { border-color: var(--accent); }
-    .post-card.featured .card-img {
-      aspect-ratio: 4/3;
-      overflow: hidden;
-      position: relative;
-    }
-    .post-card.featured .card-img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: grayscale(.3) brightness(.85);
-      transition: transform .4s ease, filter .4s ease;
-    }
-    .post-card.featured:hover .card-img img { transform: scale(1.04); filter: grayscale(0) brightness(.95); }
-    .post-card.featured .card-body {
-      padding: 36px 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    /* Regular post rows */
-    .post-card.row {
-      display: grid;
-      grid-template-columns: 1fr 200px;
-      gap: 0;
-      border-bottom: 1px solid var(--border);
-      text-decoration: none;
-      color: inherit;
-      padding: 28px 0;
-      align-items: center;
-      transition: opacity .15s;
-    }
-    .post-card.row:hover { opacity: .75; }
-    .post-card.row:hover .row-title { color: var(--accent); }
-    .post-card.row .card-img {
-      width: 200px;
-      aspect-ratio: 16/9;
-      overflow: hidden;
-      border-radius: 3px;
-    }
-    .post-card.row .card-img img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      filter: grayscale(.2) brightness(.8);
-      transition: filter .3s;
-    }
-    .post-card.row:hover .card-img img { filter: grayscale(0) brightness(.95); }
-
-    /* Shared card text */
-    .card-tag {
-      font-family: var(--mono);
-      font-size: 10px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .card-title, .row-title {
-      font-family: var(--serif);
-      font-size: 26px;
-      font-weight: 400;
-      line-height: 1.25;
-      color: var(--text);
-      margin-bottom: 12px;
-      transition: color .15s;
-    }
-    .row-title { font-size: 20px; }
-    .card-excerpt {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 24px;
-      flex: 1;
-    }
-    .card-meta {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .card-meta .dot { width: 3px; height: 3px; background: var(--muted); border-radius: 50%; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 24px;
-      text-align: center;
-    }
-    footer p {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--muted);
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 680px) {
-      .post-card.featured { grid-template-columns: 1fr; }
-      .post-card.featured .card-img { aspect-ratio: 16/9; }
-      .post-card.featured .card-body { padding: 24px; }
-      .post-card.row { grid-template-columns: 1fr; gap: 16px; }
-      .post-card.row .card-img { width: 100%; }
-      .nav-links { gap: 16px; }
-    }
-
-    /* Fade in */
-    .fade-in { opacity: 0; transform: translateY(16px); animation: fadeUp .5s ease forwards; }
-    .fade-in:nth-child(1) { animation-delay: .05s; }
-    .fade-in:nth-child(2) { animation-delay: .12s; }
-    .fade-in:nth-child(3) { animation-delay: .19s; }
-    .fade-in:nth-child(4) { animation-delay: .26s; }
-    .fade-in:nth-child(5) { animation-delay: .33s; }
-    @keyframes fadeUp { to { opacity: 1; transform: none; } }
-  </style>
-</head>
-<body>
-
-  <!-- NAV -->
-  <nav>
-    <div class="nav-inner">
-      <a class="nav-logo" href="/">aditya<span>@shettigar</span> ~</a>
-      <div class="nav-links">
-        <a href="/">home</a>
-        <a href="/blog/" class="active">blog</a>
-        <a href="https://github.com/adityajshettigar" target="_blank">github</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- HEADER -->
-  <header>
-    <div class="header-label">// field notes</div>
-    <h1>Security, Systems &amp;<br>Stuff I Build</h1>
-    <p>Writeups on OSINT, cybersecurity research, and whatever rabbit hole I fell into this week.</p>
-  </header>
-
-  <!-- FILTER BAR -->
-  <div class="filter-bar" id="filterBar">
-    <button class="tag-btn active" data-tag="all">All</button>
-    <button class="tag-btn" data-tag="osint">OSINT</button>
-    <button class="tag-btn" data-tag="ctf">CTF</button>
-    <button class="tag-btn" data-tag="research">Research</button>
-    <button class="tag-btn" data-tag="build">Build Log</button>
-  </div>
-
-  <!-- POSTS -->
-  <main>
-    <div class="post-list" id="postList">
-
-      <!-- FEATURED -->
-      <a class="post-card featured fade-in" href="/blog/pattedara-socmint-module/" data-tags="osint research">
-        <div class="card-img">
-          <!-- Replace with your actual image -->
-          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80" alt="Mr. Pattedaara SOCMINT" />
-        </div>
-        <div class="card-body">
+<main>
+  <div class="post-list" id="postList">
+    {% for post in site.posts %}
+      {% if forloop.first %}
+        <!-- FIRST POST IS FEATURED -->
+        <a class="post-card featured fade-in" href="{{ post.url }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
+          <div class="card-img">
+            <img src="{{ post.image | default: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80' }}" alt="{{ post.title }}" />
+          </div>
+          <div class="card-body">
+            <div>
+              <div class="card-tag">{% for tag in post.tags %}{{ tag }}{% unless forloop.last %} · {% endunless %}{% endfor %}</div>
+              <div class="card-title">{{ post.title }}</div>
+              <div class="card-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</div>
+            </div>
+            <div class="card-meta">
+              <span>{{ post.date | date: "%b %Y" }}</span>
+              <span class="dot"></span>
+              <span>Featured</span>
+            </div>
+          </div>
+        </a>
+      {% else %}
+        <!-- OTHER POSTS ARE ROWS -->
+        <a class="post-card row fade-in" href="{{ post.url }}" data-tags="{{ post.tags | join: ' ' | downcase }}">
           <div>
-            <div class="card-tag">OSINT · Research</div>
-            <div class="card-title">Building a SOCMINT Module for Indian Law Enforcement: Architecture &amp; Decisions</div>
-            <div class="card-excerpt">How I designed a FastAPI microservice to plug real-time social media intelligence into the Mr. Pattedaara investigation platform — including the twelve tools I evaluated and why I threw most of them out.</div>
+            <div class="card-tag">{% for tag in post.tags %}{{ tag }}{% unless forloop.last %} · {% endunless %}{% endfor %}</div>
+            <div class="row-title">{{ post.title }}</div>
+            <div class="card-meta">
+              <span>{{ post.date | date: "%b %Y" }}</span>
+            </div>
           </div>
-          <div class="card-meta">
-            <span>May 2025</span>
-            <span class="dot"></span>
-            <span>8 min read</span>
+          {% if post.image %}
+          <div class="card-img">
+            <img src="{{ post.image }}" alt="{{ post.title }}" />
           </div>
-        </div>
-      </a>
+          {% endif %}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</main>
 
-      <!-- ROW POSTS -->
-      <a class="post-card row fade-in" href="/blog/shabdavedhi-enf-analysis/" data-tags="research build">
-        <div>
-          <div class="card-tag">Research · Build Log</div>
-          <div class="row-title">ENF Analysis in Shabdavedhi: How Grid Hum Exposes Audio Tampering</div>
-          <div class="card-meta">
-            <span>Apr 2025</span>
-            <span class="dot"></span>
-            <span>6 min read</span>
-          </div>
-        </div>
-        <div class="card-img">
-          <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&q=80" alt="Audio waveform" />
-        </div>
-      </a>
+<script>
+  const btns = document.querySelectorAll('.tag-btn');
+  const cards = document.querySelectorAll('.post-card');
 
-      <a class="post-card row fade-in" href="/blog/unddosed-federated-learning/" data-tags="research">
-        <div>
-          <div class="card-tag">Research</div>
-          <div class="row-title">UnDDoSed: Federated Learning Meets Explainable DDoS Detection</div>
-          <div class="card-meta">
-            <span>Mar 2025</span>
-            <span class="dot"></span>
-            <span>10 min read</span>
-          </div>
-        </div>
-        <div class="card-img">
-          <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=400&q=80" alt="Network nodes" />
-        </div>
-      </a>
-
-      <a class="post-card row fade-in" href="/blog/ctf-writeup-picoctf/" data-tags="ctf">
-        <div>
-          <div class="card-tag">CTF</div>
-          <div class="row-title">PicoCTF 2025 — Forensics Track Writeup</div>
-          <div class="card-meta">
-            <span>Feb 2025</span>
-            <span class="dot"></span>
-            <span>5 min read</span>
-          </div>
-        </div>
-        <div class="card-img">
-          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&q=80" alt="Terminal" />
-        </div>
-      </a>
-
-    </div>
-  </main>
-
-  <footer>
-    <p>© 2025 Aditya J Shettigar · <a href="mailto:aditya@adityajshettigar.in">aditya@adityajshettigar.in</a></p>
-  </footer>
-
-  <script>
-    // Tag filter
-    const btns = document.querySelectorAll('.tag-btn');
-    const cards = document.querySelectorAll('.post-card');
-
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const tag = btn.dataset.tag;
-        cards.forEach(card => {
-          const tags = card.dataset.tags || '';
-          card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
-        });
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tag = btn.dataset.tag.toLowerCase();
+      cards.forEach(card => {
+        const tags = card.dataset.tags || '';
+        card.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
       });
     });
-  </script>
-</body>
-</html>
+  });
+</script>

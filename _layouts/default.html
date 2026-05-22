@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title | default: site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0e10;
+      --surface:   #13151a;
+      --border:    #1e2028;
+      --text:      #e8e9ec;
+      --muted:     #6b6f7a;
+      --accent:    #5ef3d2;
+      --accent-dim:#1a3830;
+      --serif:     'Instrument Serif', Georgia, serif;
+      --mono:      'Geist Mono', 'Fira Code', monospace;
+      --sans:      'Geist', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px) saturate(1.4);
+      background: rgba(13,14,16,.85);
+    }
+    .nav-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: .02em;
+    }
+    .nav-logo span { color: var(--muted); }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: color .15s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 24px;
+      text-align: center;
+      margin-top: auto;
+    }
+    footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">aditya<span>@shettigar</span> ~</a>
+      <div class="nav-links">
+        <a href="/">home</a>
+        <a href="/" class="active">blog</a>
+        <a href="https://github.com/adityajshettigar" target="_blank">github</a>
+      </div>
+    </div>
+  </nav>
+
+  {{ content }}
+
+  <footer>
+    <p>© 2026 Aditya J Shettigar · <a href="mailto:aditya@adityajshettigar.in">aditya@adityajshettigar.in</a></p>
+  </footer>
+
+</body>
+</html>
