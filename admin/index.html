@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Content Manager</title>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <!-- Use Sveltia CMS instead of Decap -->
+  <script src="https://cdn.jsdelivr.net/npm/@sveltia/cms/dist/sveltia-cms.js"></script>
   <script>
-    CMS.init({
+    SveltiaCMS.init({
       config: {
         backend: {
           name: 'github',
           repo: 'adityajshettigar/adityajshettigar.github.io',
           branch: 'main',
+          site_domain: 'adityajshettigar.github.io'
         },
-        local_backend: false,
         media_folder: 'assets/images',
         public_folder: '/assets/images',
         collections: [
@@ -27,11 +28,12 @@
             slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
             fields: [
               { label: 'Layout', name: 'layout', widget: 'hidden', default: 'post' },
-              { label: 'Title', name: 'title', widget: 'string' },
-              { label: 'Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false },
-              { label: 'Tags', name: 'tags', widget: 'list', default: ['research'] },
-              { label: 'Excerpt', name: 'excerpt', widget: 'text' },
-              { label: 'Body', name: 'body', widget: 'markdown' }
+              { label: 'Title', name: 'title', widget: 'string', required: true },
+              { label: 'Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false, required: true },
+              { label: 'Tags', name: 'tags', widget: 'list', required: true, default: ['research'] },
+              { label: 'Excerpt', name: 'excerpt', widget: 'text', required: true },
+              { label: 'Featured Image', name: 'image', widget: 'image', required: false },
+              { label: 'Body', name: 'body', widget: 'markdown', required: true }
             ]
           }
         ]
